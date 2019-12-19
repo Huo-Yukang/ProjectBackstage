@@ -33,29 +33,28 @@ public class BusinessDao {
     }
 
     public Business find(Integer id) throws SQLException{
-        Set<Business> businesss = new HashSet<Business>();
+        Business business = null;
         //获得连接对象
         //获得连接对象
         Connection connection = JdbcHelper.getConn();
-        Statement statement = connection.createStatement();
-        //执行SQL查询语句并获得结果集对象（游标指向结果集的开头）
-        ResultSet resultSet = statement.executeQuery("select * from Business");
+        String business_sql = "SELECT * FROM business WHERE id=?";
+        //在该连接上创建预编译语句对象
+        PreparedStatement preparedStatement = connection.prepareStatement(business_sql);
+        //为预编译参数赋值
+        preparedStatement.setInt(1,id);
+        //由于id不能取重复值，故结果集中最多有一条记录
+        //若结果集有一条记录，则以当前记录中的id,description,no,remarks值为参数，创建Degree对象
+        //若结果集中没有记录，则本方法返回null
+        ResultSet resultSet = preparedStatement.executeQuery();
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
-            //创建Business对象，根据遍历结果中的id,description,no,remarks值
-            Business business = new Business(resultSet.getInt("id"),resultSet.getString("shopname"),resultSet.getString("call_phone"),resultSet.getString("address"));
-            //向businesss集合中添加Business对象
-            businesss.add(business);
+            //创建Food对象，根据遍历结果中的id,description,no,remarks值
+            business = new Business(resultSet.getInt("id"),resultSet.getString("shopname"),resultSet.getString("call_phone"),resultSet.getString("address"));
+            //向foods集合中添加Food对象
         }
         //关闭资源
-        JdbcHelper.close(resultSet,statement,connection);
-        Business desiredBusiness = null;
-        for (Business business : businesss) {
-            if(id.equals(business.getId())){
-                desiredBusiness =  business;
-            }
-        }
-        return desiredBusiness;
+        JdbcHelper.close(resultSet,preparedStatement,connection);
+        return business;
     }
 
     public boolean update(Business business) throws SQLException {

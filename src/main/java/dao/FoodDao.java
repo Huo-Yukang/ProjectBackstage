@@ -34,29 +34,28 @@ public class FoodDao {
     }
 
     public Food find(Integer id) throws SQLException{
-        Set<Food> foods = new HashSet<Food>();
+        Food food = null;
         //获得连接对象
         //获得连接对象
         Connection connection = JdbcHelper.getConn();
-        Statement statement = connection.createStatement();
-        //执行SQL查询语句并获得结果集对象（游标指向结果集的开头）
-        ResultSet resultSet = statement.executeQuery("select * from Food");
+        String deleteDepartment_sql = "SELECT * FROM department WHERE id=?";
+        //在该连接上创建预编译语句对象
+        PreparedStatement preparedStatement = connection.prepareStatement(deleteDepartment_sql);
+        //为预编译参数赋值
+        preparedStatement.setInt(1,id);
+        //由于id不能取重复值，故结果集中最多有一条记录
+        //若结果集有一条记录，则以当前记录中的id,description,no,remarks值为参数，创建Degree对象
+        //若结果集中没有记录，则本方法返回null
+        ResultSet resultSet = preparedStatement.executeQuery();
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
             //创建Food对象，根据遍历结果中的id,description,no,remarks值
-            Food food = new Food(resultSet.getInt("id"),resultSet.getString("foodno"),resultSet.getString("foodname"),resultSet.getInt("price"),resultSet.getInt("total"));
+            food = new Food(resultSet.getInt("id"),resultSet.getString("foodno"),resultSet.getString("foodname"),resultSet.getInt("price"),resultSet.getInt("total"));
             //向foods集合中添加Food对象
-            foods.add(food);
         }
         //关闭资源
-        JdbcHelper.close(resultSet,statement,connection);
-        Food desiredFood = null;
-        for (Food food : foods) {
-            if(id.equals(food.getId())){
-                desiredFood =  food;
-            }
-        }
-        return desiredFood;
+        JdbcHelper.close(resultSet,preparedStatement,connection);
+        return food;
     }
 
     public boolean update(Food food) throws SQLException {
@@ -96,7 +95,7 @@ public class FoodDao {
         return affectedRowNum > 0;
     }
 
-    public boolean  delete(Food food) throws SQLException{
+    public boolean delete(Food food) throws SQLException{
         Connection connection = JdbcHelper.getConn();
         //创建sql语句，“？”作为占位符
         String delete = "DELETE FROM DEGREE WHERE ID =?";
