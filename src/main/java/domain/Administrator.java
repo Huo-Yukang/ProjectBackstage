@@ -1,16 +1,18 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class Administrator implements Comparable<Administrator>, Serializable
 {
 	private int id;
 	private String admername;
 	private String password;
-	public User user;
+	public Set<User> user;
 	public Business business;
-	public Food food;
-	public Administrator(int id, String admername, String password, User user, Business business, Food food){
+	public Set<Food> food;
+
+	public Administrator(int id, String admername, String password, Set<User> user, Business business, Set<Food> food) {
 		this.id = id;
 		this.admername = admername;
 		this.password = password;
@@ -18,18 +20,20 @@ public class Administrator implements Comparable<Administrator>, Serializable
 		this.business = business;
 		this.food = food;
 	}
-	public Administrator(String admername, String password, User user, Business business, Food food){
+
+	public Administrator(String admername, String password, Set<User> user, Business business, Set<Food> food) {
 		this.admername = admername;
 		this.password = password;
 		this.user = user;
 		this.business = business;
 		this.food = food;
 	}
-	public Integer getId() {
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -49,11 +53,11 @@ public class Administrator implements Comparable<Administrator>, Serializable
 		this.password = password;
 	}
 
-	public User getUser() {
+	public Set<User> getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Set<User> user) {
 		this.user = user;
 	}
 
@@ -65,14 +69,13 @@ public class Administrator implements Comparable<Administrator>, Serializable
 		this.business = business;
 	}
 
-	public Food getFood() {
+	public Set<Food> getFood() {
 		return food;
 	}
 
-	public void setFood(Food food) {
+	public void setFood(Set<Food> food) {
 		this.food = food;
 	}
-
 
 	@Override
 	public int compareTo(Administrator o) {

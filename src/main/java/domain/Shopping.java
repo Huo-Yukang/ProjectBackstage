@@ -1,24 +1,25 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class Shopping implements Comparable<Shopping>, Serializable
 {
 	
 	private int id;
 	private String no;
-	public Food food;
+	public Set<Food> food;
 	public Shopping(){
 		super();
 	}
 
-	public Shopping(int id, String no, Food food) {
+	public Shopping(int id, String no, Set<Food> food) {
 		this.id = id;
 		this.no = no;
 		this.food = food;
 	}
 
-	public Shopping(String no, Food food) {
+	public Shopping(String no, Set<Food> food) {
 		this.no = no;
 		this.food = food;
 	}
@@ -39,11 +40,11 @@ public class Shopping implements Comparable<Shopping>, Serializable
 		this.no = no;
 	}
 
-	public Food getFood() {
+	public Set<Food> getFood() {
 		return food;
 	}
 
-	public void setFood(Food food) {
+	public void setFood(Set<Food> food) {
 		this.food = food;
 	}
 
