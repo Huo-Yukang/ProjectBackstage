@@ -1,6 +1,7 @@
 package dao;
 
 import domain.Administrator;
+import domain.Business;
 import domain.Food;
 import domain.User;
 import helper.JdbcHelper;
@@ -28,9 +29,11 @@ public class AdministratorDao {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM administrator");
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
+            User user = UserDao.getInstance().find(resultSet.getInt("user_id"));
+            Business business = BusinessDao.getInstance().find(resultSet.getInt("business_id"));
             Food food = FoodDao.getInstance().find(resultSet.getInt("food_id"));
             //以当前记录中的id,description,no,remarks值为参数，创建Administrator对象
-            Administrator business = new Administrator(resultSet.getInt("id"),resultSet.getString("admername"),resultSet.getString("password"),food);
+            Administrator administrator = new Administrator(resultSet.getInt("id"),resultSet.getString("admername"),resultSet.getString("password"),user,business,food);
             //向businesss集合中添加Administrator对象
             businesss.add(business);
         }
