@@ -16,6 +16,7 @@ public class ShoppingDao {
     public static ShoppingDao getInstance(){
         return shoppingDao;
     }
+
     public Collection<Shopping> findAll() throws SQLException {
         Set<Shopping> shoppings = new HashSet<Shopping>();
         Connection connection = JdbcHelper.getConn();
@@ -24,7 +25,7 @@ public class ShoppingDao {
         ResultSet resultSet = statement.executeQuery("select * from shopping");
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
-            Set<Shopping> food = FoodDao.getInstance().find(resultSet.getInt("food_id"));
+            Food food = FoodDao.getInstance().find(resultSet.getInt("food_id"));
             //创建Degree对象，根据遍历结果中的id,description,no,remarks值
             Shopping shopping = new Shopping(resultSet.getString("no"),food);
             //向degrees集合中添加Degree对象
@@ -39,14 +40,12 @@ public class ShoppingDao {
         //获得连接对象
         Connection connection = JdbcHelper.getConn();
         //创建sql语句，“？”作为占位符
-        String addDegree_sql = "INSERT INTO shopping(no,description,remarks,food_id) VALUES" + " (?,?,?,?)";
+        String addFoodToShopping_sql = "INSERT INTO shopping(no,food_id) VALUES" + " (?,?)";
         //创建PreparedStatement接口对象，包装编译后的目标代码（可以设置参数，安全性高）
-        PreparedStatement pstmt = connection.prepareStatement(addDegree_sql);
+        PreparedStatement pstmt = connection.prepareStatement(addFoodToShopping_sql);
         //为预编译的语句参数赋值
         pstmt.setString(1,shopping.getNo());
-        pstmt.setString(2,shopping.getDescription());
-        pstmt.setString(3,shopping.getRemarks());
-        pstmt.setInt(4,shopping.getFood().getId());
+        pstmt.setInt(2,shopping.getFood().getId());
         //执行预编译对象的executeUpdate()方法，获取增加记录的行数
         int affectedRowNum = pstmt.executeUpdate();
         System.out.println("增加了 "+affectedRowNum+" 条");
@@ -126,9 +125,9 @@ public class ShoppingDao {
         //获得连接对象
         Connection connection = JdbcHelper.getConn();
         //创建sql语句，“？”作为占位符
-        String addDegree_sql = "update shopping set description=?,no=?,remarks=? where id=?";
+        String addFoodToShopping_sql = "update shopping set description=?,no=?,remarks=? where id=?";
         //创建PreparedStatement接口对象，包装编译后的目标代码（可以设置参数，安全性高）
-        PreparedStatement pstmt = connection.prepareStatement(addDegree_sql);
+        PreparedStatement pstmt = connection.prepareStatement(addFoodToShopping_sql);
         //为预编译的语句参数赋值
         pstmt.setString(1,shopping.getDescription());
         pstmt.setString(2,shopping.getNo());

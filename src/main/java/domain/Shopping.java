@@ -8,18 +8,18 @@ public class Shopping implements Comparable<Shopping>, Serializable
 	
 	private int id;
 	private String no;
-	public Set<Food> food;
+	public Food food;
 	public Shopping(){
 		super();
 	}
 
-	public Shopping(int id, String no, Set<Food> food) {
+	public Shopping(int id, String no, Food food) {
 		this.id = id;
 		this.no = no;
 		this.food = food;
 	}
 
-	public Shopping(String no, Set<Food> food) {
+	public Shopping(String no, Food food) {
 		this.no = no;
 		this.food = food;
 	}
@@ -40,11 +40,11 @@ public class Shopping implements Comparable<Shopping>, Serializable
 		this.no = no;
 	}
 
-	public Set<Food> getFood() {
+	public Food getFood() {
 		return food;
 	}
 
-	public void setFood(Set<Food> food) {
+	public void setFood(Food food) {
 		this.food = food;
 	}
 
