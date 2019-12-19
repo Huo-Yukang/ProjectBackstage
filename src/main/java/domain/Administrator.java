@@ -29,6 +29,14 @@ public class Administrator implements Comparable<Administrator>, Serializable
 		this.food = food;
 	}
 
+	public Administrator(int id, String admername, String password, User user, Food food) {
+		this.id = id;
+		this.admername = admername;
+		this.password = password;
+		this.user = user;
+		this.food = food;
+	}
+
 	public int getId() {
 		return id;
 	}
