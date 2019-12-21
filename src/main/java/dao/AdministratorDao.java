@@ -64,10 +64,12 @@ public class AdministratorDao {
         return administrator;
     }
 
-    public Boolean update(Integer id) throws SQLException {
+    public Boolean update(Food food) throws SQLException {
         Connection connection = JdbcHelper.getConn();
-        PreparedStatement preparedStatement = connection.prepareStatement("update food set total = total + 1 where id = ?");
-        preparedStatement.setInt(1,id);
+        PreparedStatement preparedStatement = connection.prepareStatement("update food set total = ?,price = ? where id = ?");
+        preparedStatement.setInt(1,food.getTotal());
+        preparedStatement.setInt(2,food.getPrice());
+        preparedStatement.setInt(3,food.getId());
         int affectedRowNum = preparedStatement.executeUpdate();
         return affectedRowNum>0;
     }
