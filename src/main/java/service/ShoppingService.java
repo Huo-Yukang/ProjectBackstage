@@ -15,8 +15,8 @@ public class ShoppingService {
         return shoppingService;
     }
 
-    public Collection<Shopping> findAll() throws SQLException {
-        return shoppingDao.findAll();
+    public Collection<Shopping> findByUser_id(Integer user_id) throws SQLException {
+        return shoppingDao.findByUser_id(user_id);
     }
 
     public Shopping find(Integer id) throws SQLException {

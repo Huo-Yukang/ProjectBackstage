@@ -7,20 +7,20 @@ public class Shopping implements Comparable<Shopping>, Serializable
 {
 	
 	private int id;
-	private String no;
+	public User user;
 	public Food food;
 	public Shopping(){
 		super();
 	}
 
-	public Shopping(int id, String no, Food food) {
+	public Shopping(int id, User user, Food food) {
 		this.id = id;
-		this.no = no;
+		this.user = user;
 		this.food = food;
 	}
 
-	public Shopping(String no, Food food) {
-		this.no = no;
+	public Shopping(User user, Food food) {
+		this.user = user;
 		this.food = food;
 	}
 
@@ -32,12 +32,12 @@ public class Shopping implements Comparable<Shopping>, Serializable
 		this.id = id;
 	}
 
-	public String getNo() {
-		return no;
+	public User getUser() {
+		return user;
 	}
 
-	public void setNo(String no) {
-		this.no = no;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Food getFood() {

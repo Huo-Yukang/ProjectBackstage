@@ -2,6 +2,7 @@ package dao;
 
 import domain.Food;
 import domain.Shopping;
+import domain.User;
 import helper.JdbcHelper;
 
 import java.sql.*;
@@ -17,18 +18,17 @@ public class ShoppingDao {
         return shoppingDao;
     }
 
-    public Collection<Shopping> findAll() throws SQLException {
+    public Collection<Shopping> findByUser_id(Integer user_id) throws SQLException {
         Set<Shopping> shoppings = new HashSet<Shopping>();
         Connection connection = JdbcHelper.getConn();
-        Statement statement = connection.createStatement();
-        //执行SQL查询语句并获得结果集对象（游标指向结果集的开头）
-        ResultSet resultSet = statement.executeQuery("select * from shopping");
-        //若结果集仍然有下一条记录，则执行循环体
-        while (resultSet.next()){
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from shopping where user_id = ?");
+        preparedStatement.setInt(1,user_id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        //结果集表游标下移一行，当有结果的时候
+        while (resultSet.next()) {
+            User user = UserDao.getInstance().find(resultSet.getInt("user_id"));
             Food food = FoodDao.getInstance().find(resultSet.getInt("food_id"));
-            //创建Degree对象，根据遍历结果中的id,description,no,remarks值
-            Shopping shopping = new Shopping(resultSet.getString("no"),food);
-            //向degrees集合中添加Degree对象
+            Shopping shopping = new Shopping(resultSet.getInt("id"),user,food);
             shoppings.add(shopping);
         }
         return shoppings;
@@ -44,7 +44,7 @@ public class ShoppingDao {
         //创建PreparedStatement接口对象，包装编译后的目标代码（可以设置参数，安全性高）
         PreparedStatement pstmt = connection.prepareStatement(addFoodToShopping_sql);
         //为预编译的语句参数赋值
-        pstmt.setString(1,shopping.getNo());
+        pstmt.setInt(1,shopping.getUser().getId());
         pstmt.setInt(2,shopping.getFood().getId());
         //执行预编译对象的executeUpdate()方法，获取增加记录的行数
         int affectedRowNum = pstmt.executeUpdate();
@@ -68,9 +68,10 @@ public class ShoppingDao {
         ResultSet resultSet = preparedStatement.executeQuery();
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
+            User user = UserDao.getInstance().find(resultSet.getInt("user_id"));
             Food food = FoodDao.getInstance().find(resultSet.getInt("food_id"));
             //创建Degree对象，根据遍历结果中的id,description,no,remarks值
-            shopping = new Shopping(resultSet.getString("no"),food);
+            shopping = new Shopping(user,food);
         }
         //关闭资源
         JdbcHelper.close(resultSet,preparedStatement,connection);
