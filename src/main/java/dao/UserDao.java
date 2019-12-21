@@ -133,7 +133,7 @@ public class UserDao {
         //获得连接对象
         Connection connection = JdbcHelper.getConn();
         //创建sql语句，“？”作为占位符
-        String addUser_sql = "INSERT INTO user(username,password,call_phone,address,id) VALUES" + " (?,?,?,?,?)";
+        String addUser_sql = "INSERT INTO user(username,password,call_phone,address) VALUES" + " (?,?,?,?)";
         //创建PreparedStatement接口对象，包装编译后的目标代码（可以设置参数，安全性高）
         PreparedStatement pstmt = connection.prepareStatement(addUser_sql);
         //为预编译的语句参数赋值
@@ -141,7 +141,6 @@ public class UserDao {
         pstmt.setString(2,user.getPassword());
         pstmt.setString(3,user.getCallphone());
         pstmt.setString(4,user.getAddress());
-        pstmt.setInt(5,user.getId());
         //执行预编译对象的executeUpdate()方法，获取增加记录的行数
         int affectedRowNum = pstmt.executeUpdate();
         System.out.println("增加了 "+affectedRowNum+" 条");
