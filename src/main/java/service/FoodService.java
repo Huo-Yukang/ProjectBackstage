@@ -31,7 +31,11 @@ public class FoodService {
         return foodDao.add(food);
     }
 
-    public boolean  delete(Food food) throws SQLException{
-        return foodDao.delete(food);
+    public boolean  delete(int id) throws SQLException{
+        return foodDao.delete(id);
+    }
+
+    public Food findToName(String name) throws  SQLException{
+        return foodDao.findToName(name);
     }
 }

@@ -23,15 +23,15 @@ public class UserService {
         return userDao.find(id);
     }
 
+    public User findToUsername(String username) throws SQLException {
+        return userDao.findToUsername(username);
+    }
+
     public boolean update(User user) throws SQLException {
         return userDao.update(user);
     }
 
     public boolean add(User user) throws SQLException {
         return userDao.add(user);
-    }
-
-    public boolean  delete(User user) throws SQLException{
-        return userDao.delete(user);
     }
 }

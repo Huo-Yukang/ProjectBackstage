@@ -15,11 +15,11 @@
         <property name="yearIsDateType" value="false" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="jdbc:mysql://localhost:3306/kcsj?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=Asia/Shanghai" uuid="87142d19-666b-4431-adfb-f10e5cc7c887">
+    <data-source source="LOCAL" name="jdbc:mysql://localhost:3306/kcsj?useUnicode=true&amp;characterEncoding=utf8 &amp;serverTimezone=Asia/Shanghai" uuid="839a9ba5-588b-4e9a-814d-c89c2c7b2c8d">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/kcsj?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=Asia/Shanghai</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/kcsj?useUnicode=true&amp;characterEncoding=utf8 &amp;serverTimezone=Asia/Shanghai</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="CONVERT_TO_NULL" />

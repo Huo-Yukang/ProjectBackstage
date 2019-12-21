@@ -10,27 +10,24 @@ public class User implements Comparable<User>, Serializable
 	private String password;
 	private String call_phone;
 	private String address;
-	public Shopping shopping;
 	public User(){
 		super();
 	}
 
 
-	public User(int id, String username, String password, String call_phone, String address,Shopping shopping) {
+	public User(int id, String username, String password, String call_phone, String address) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.call_phone = call_phone;
 		this.address = address;
-		this.shopping = shopping;
 	}
 
-	public User(String username, String password, String call_phone, String address,Shopping shopping) {
+	public User(String username, String password, String call_phone, String address) {
 		this.username = username;
 		this.password = password;
 		this.call_phone = call_phone;
 		this.address = address;
-		this.shopping = shopping;
 	}
 
 	public int getId() {
@@ -71,14 +68,6 @@ public class User implements Comparable<User>, Serializable
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public Shopping getShopping() {
-		return shopping;
-	}
-
-	public void setShopping(Shopping shopping) {
-		this.shopping = shopping;
 	}
 
 	@Override

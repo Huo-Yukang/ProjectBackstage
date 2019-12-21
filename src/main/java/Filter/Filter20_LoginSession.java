@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 //验证过滤器
-@WebFilter(filterName = "Filter 20",urlPatterns = {"/*"})
+//@WebFilter(filterName = "Filter 20",urlPatterns = {"/*"})
 public class Filter20_LoginSession implements Filter {
     public void destroy() {
     }
