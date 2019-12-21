@@ -54,7 +54,7 @@ public class UserDao {
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
             //创建User对象，根据遍历结果中的id,description,no,remarks值
-            user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("adderss"));
+            user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"));
             //向users集合中添加User对象
         }
         //关闭资源
@@ -79,11 +79,34 @@ public class UserDao {
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
             //创建User对象，根据遍历结果中的id,description,no,remarks值
-            user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("adderss"));
+            user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"));
             //向users集合中添加User对象
         }
         //关闭资源
         JdbcHelper.close(resultSet,preparedStatement,connection);
+        return user;
+    }
+
+    public User login(String username,String password) throws SQLException {
+        Set<User> users = new HashSet<User>();
+        //获得连接对象
+        Connection connection = JdbcHelper.getConn();
+        Statement statement = connection.createStatement();
+        //执行SQL查询语句并获得结果集对象（游标指向结果集的开头）
+        ResultSet resultSet = statement.executeQuery("select * from user");
+        //若结果集仍然有下一条记录，则执行循环体
+        while (resultSet.next()){
+            User user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"));
+            //向degrees集合中添加Degree对象
+            users.add(user);
+        }
+        //关闭资源
+        JdbcHelper.close(resultSet,statement,connection);
+        User user = null;
+        User desiredUser = userDao.findToUsername(username);
+        if(desiredUser.getPassword().equals(password)){
+            user = desiredUser;
+        }
         return user;
     }
 
