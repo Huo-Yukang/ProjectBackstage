@@ -67,7 +67,7 @@ public class UserDao {
         //获得连接对象
         Connection connection = JdbcHelper.getConn();
         //创建sql语句，“？”作为占位符
-        String addUser_sql = "update user set username=?,password=?,callphone=?,address=? where id=?";
+        String addUser_sql = "update user set username=?,password=?,call_phone=?,address=? where id=?";
         //创建PreparedStatement接口对象，包装编译后的目标代码（可以设置参数，安全性高）
         PreparedStatement pstmt = connection.prepareStatement(addUser_sql);
         //为预编译的语句参数赋值
@@ -92,7 +92,7 @@ public class UserDao {
             connection.setAutoCommit(false);
             //添加预编译语句
             preparedStatement = connection.prepareStatement(
-                    "INSERT INTO userkeshi(id,username,password,callphone,address,shopping_id) VALUES (?,?,?,?,?,?)");
+                    "INSERT INTO user(id,username,password,call_phone,address,shopping_id) VALUES (?,?,?,?,?,?)");
             preparedStatement.setInt(1,user.getId());
             preparedStatement.setString(2, user.getUsername());
             preparedStatement.setString(3,user.getPassword());

@@ -8,7 +8,7 @@ public class User implements Comparable<User>, Serializable
 	private int id;
 	private String username;
 	private String password;
-	private String callphone;
+	private String call_phone;
 	private String address;
 	public Shopping shopping;
 	public User(){
@@ -16,19 +16,19 @@ public class User implements Comparable<User>, Serializable
 	}
 
 
-	public User(int id, String username, String password, String callphone, String address,Shopping shopping) {
+	public User(int id, String username, String password, String call_phone, String address,Shopping shopping) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.callphone = callphone;
+		this.call_phone = call_phone;
 		this.address = address;
 		this.shopping = shopping;
 	}
 
-	public User(String username, String password, String callphone, String address,Shopping shopping) {
+	public User(String username, String password, String call_phone, String address,Shopping shopping) {
 		this.username = username;
 		this.password = password;
-		this.callphone = callphone;
+		this.call_phone = call_phone;
 		this.address = address;
 		this.shopping = shopping;
 	}
@@ -58,11 +58,11 @@ public class User implements Comparable<User>, Serializable
 	}
 
 	public String getCallphone() {
-		return callphone;
+		return call_phone;
 	}
 
-	public void setCallphone(String callphone) {
-		this.callphone = callphone;
+	public void setCallphone(String call_phone) {
+		this.call_phone = call_phone;
 	}
 
 	public String getAddress() {
