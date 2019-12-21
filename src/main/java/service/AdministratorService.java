@@ -2,6 +2,7 @@ package service;
 
 import dao.AdministratorDao;
 import domain.Administrator;
+import domain.Food;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -23,8 +24,8 @@ public class AdministratorService {
         return administratorDao.find(id);
     }
 
-    public boolean update(int id) throws SQLException {
-        return administratorDao.update(id);
+    public boolean update(Food food) throws SQLException {
+        return administratorDao.update(food);
     }
 
     public boolean  delete(int id) throws SQLException{
