@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/AdministratorController")
+@WebServlet("/Administrator.ctl")
 public class AdministratorController extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String administrator_json = JSONUtil.getJSON(request);

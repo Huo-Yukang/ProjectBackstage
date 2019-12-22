@@ -54,35 +54,47 @@ public class ShoppingDao {
                         resultSet.getString("address"),
                         resultSet.getInt("balance"));
             }
-
-            preparedStatement = connection.prepareStatement("select * from shopping where user_id = ?");
+            preparedStatement = connection.prepareStatement("select food_id from shopping where user_id = ?");
             preparedStatement.setInt(1,id);
             ResultSet resultSet1 = preparedStatement.executeQuery();
             int total = 0;
             while (resultSet1.next()){
-                int one = resultSet.getInt("balance");
-                total = total + one;
+                int food_id = resultSet1.getInt("food_id");
+                preparedStatement = connection.prepareStatement("select * from food where id = ?");
+                preparedStatement.setInt(1,food_id);
+                ResultSet resultSet0 = preparedStatement.executeQuery();
+                if(resultSet0.next()) {
+                    Food food = new Food(resultSet0.getString("foodno"),
+                            resultSet0.getString("foodname"),
+                            resultSet0.getInt("price"),
+                            resultSet0.getInt("total"));
+                    total = total + food.getPrice();
+                }
             }
-            BusinessService.getInstance().addmoney(business,total);
+
             preparedStatement = connection.prepareStatement("select * from user where id = ?");
+            preparedStatement.setInt(1,id);
             ResultSet resultSet2 = preparedStatement.executeQuery();
             User user = null;
             if (resultSet2.next()){
-                user = new User(resultSet.getString("username"),
-                        resultSet.getString("password"),
-                        resultSet.getString("call_phone"),
-                        resultSet.getString("address"),
-                        resultSet.getInt("balance"));
+                user = new User(resultSet2.getString("username"),
+                        resultSet2.getString("password"),
+                        resultSet2.getString("call_phone"),
+                        resultSet2.getString("address"),
+                        resultSet2.getInt("balance"));
             }
-            if(user.getBalance()<total){
-                connection.rollback();
-            }
-            preparedStatement = connection.prepareStatement("update user set balance = ?");
+            preparedStatement = connection.prepareStatement("update user set balance = ? where id = ?");
             preparedStatement.setInt(1,user.getBalance() - total);
+            preparedStatement.setInt(2,id);
             int affectedRowNum = preparedStatement.executeUpdate();
+            if(user.getBalance() < total){
+                connection.rollback();
+                affectedRowNum = 0;
+            }else {
+                BusinessService.getInstance().addmoney(business,total);
+            }
             connection.commit();
             affected = affectedRowNum > 0;
-            return affected;
         }catch (SQLException e){
             if(connection != null){
                 e.printStackTrace();

@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 
-@WebServlet("/ShoppingController")
+@WebServlet("/shopping.ctl")
 public class ShoppingController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String shopping_json = JSONUtil.getJSON(request);
@@ -33,9 +33,9 @@ public class ShoppingController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String user_id_str = request.getParameter("user_id");
+        String id_str = request.getParameter("id");
         JSONObject message = new JSONObject();
-        int user_id = Integer.parseInt(user_id_str);
+        int user_id = Integer.parseInt(id_str);
         try {
             responseShoppingsByUser_id(user_id,response);
         } catch (SQLException e) {
@@ -55,12 +55,17 @@ public class ShoppingController extends HttpServlet {
     }
 
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String user_id_str = request.getParameter("user_id");
+        String user_id_str = request.getParameter("id");
         int user_id = Integer.parseInt(user_id_str);
         JSONObject message = new JSONObject();
         try {
-            ShoppingService.getInstance().transaction(user_id);
-            message.put("message","支付成功");
+            boolean traned = ShoppingService.getInstance().transaction(user_id);
+            if(traned == true){
+                message.put("message","支付成功");
+            }else {
+                message.put("message","支付失败");
+            }
+            response.getWriter().println(message);
         } catch (SQLException e) {
             e.printStackTrace();
         }

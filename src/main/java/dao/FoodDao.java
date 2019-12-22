@@ -100,33 +100,4 @@ public class FoodDao {
         System.out.println("修改了 "+affectedRowNum+" 条");
         return affectedRowNum > 0;
     }
-
-    public boolean add(Food food) throws SQLException {
-        //获得连接对象
-        Connection connection = JdbcHelper.getConn();
-        //创建sql语句，“？”作为占位符
-        String addFood_sql = "INSERT INTO food(foodno,foodname,price,total,id) VALUES" + " (?,?,?,?,?)";
-        //创建PreparedStatement接口对象，包装编译后的目标代码（可以设置参数，安全性高）
-        PreparedStatement pstmt = connection.prepareStatement(addFood_sql);
-        //为预编译的语句参数赋值
-        pstmt.setString(1,food.getFoodno());
-        pstmt.setString(2,food.getFoodname());
-        pstmt.setInt(3,food.getPrice());
-        pstmt.setInt(4,food.getTotal());
-        pstmt.setInt(5,food.getId());
-        //执行预编译对象的executeUpdate()方法，获取增加记录的行数
-        int affectedRowNum = pstmt.executeUpdate();
-        System.out.println("增加了 "+affectedRowNum+" 条");
-        return affectedRowNum > 0;
-    }
-
-    public boolean delete(int id) throws SQLException{
-        Connection connection = JdbcHelper.getConn();
-        //创建sql语句，“？”作为占位符
-        String delete = "DELETE FROM Food WHERE ID =?";
-        PreparedStatement pstmt = connection.prepareStatement(delete);
-        pstmt.setInt(1,id);
-        int delete1 = pstmt.executeUpdate();
-        return delete1>0;
-    }
 }
