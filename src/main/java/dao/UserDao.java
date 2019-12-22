@@ -28,7 +28,7 @@ public class UserDao {
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
             //以当前记录中的id,description,no,remarks值为参数，创建User对象
-            User user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"));
+            User user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"),resultSet.getInt("balance"));
             //向users集合中添加User对象
             users.add(user);
         }
@@ -54,7 +54,7 @@ public class UserDao {
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
             //创建User对象，根据遍历结果中的id,description,no,remarks值
-            user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"));
+            user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"),resultSet.getInt("balance"));
             //向users集合中添加User对象
         }
         //关闭资源
@@ -79,7 +79,7 @@ public class UserDao {
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
             //创建User对象，根据遍历结果中的id,description,no,remarks值
-            user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"));
+            user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"),resultSet.getInt("balance"));
             //向users集合中添加User对象
         }
         //关闭资源
@@ -96,7 +96,7 @@ public class UserDao {
         ResultSet resultSet = statement.executeQuery("select * from user");
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
-            User user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"));
+            User user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"),resultSet.getInt("balance"));
             //向degrees集合中添加Degree对象
             users.add(user);
         }
@@ -133,7 +133,7 @@ public class UserDao {
         //获得连接对象
         Connection connection = JdbcHelper.getConn();
         //创建sql语句，“？”作为占位符
-        String addUser_sql = "INSERT INTO user(username,password,call_phone,address) VALUES" + " (?,?,?,?)";
+        String addUser_sql = "INSERT INTO user(username,password,call_phone,address,balance) VALUES" + " (?,?,?,?,?)";
         //创建PreparedStatement接口对象，包装编译后的目标代码（可以设置参数，安全性高）
         PreparedStatement pstmt = connection.prepareStatement(addUser_sql);
         //为预编译的语句参数赋值
@@ -141,6 +141,7 @@ public class UserDao {
         pstmt.setString(2,user.getPassword());
         pstmt.setString(3,user.getCallphone());
         pstmt.setString(4,user.getAddress());
+        pstmt.setInt(5,1000);
         //执行预编译对象的executeUpdate()方法，获取增加记录的行数
         int affectedRowNum = pstmt.executeUpdate();
         System.out.println("增加了 "+affectedRowNum+" 条");
