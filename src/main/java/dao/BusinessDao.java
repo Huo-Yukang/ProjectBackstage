@@ -23,7 +23,7 @@ public class BusinessDao {
         Business business = null;
         if (resultSet.next()){
             //以当前记录中的id,description,no,remarks值为参数，创建Business对象
-             business = new Business(resultSet.getInt("id"),resultSet.getString("shopname"),resultSet.getString("call_phone"),resultSet.getString("address"));
+             business = new Business(resultSet.getInt("id"),resultSet.getString("shopname"),resultSet.getString("call_phone"),resultSet.getString("address"),resultSet.getInt("balance"));
             //向businesss集合中添加Business对象
         }
         //关闭资源
