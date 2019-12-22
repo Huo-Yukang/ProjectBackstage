@@ -26,6 +26,9 @@ public class UserService {
     public User findToUsername(String username) throws SQLException {
         return userDao.findToUsername(username);
     }
+    public User login(String username,String password) throws SQLException {
+        return userDao.login(username,password);
+    }
 
     public boolean update(User user) throws SQLException {
         return userDao.update(user);

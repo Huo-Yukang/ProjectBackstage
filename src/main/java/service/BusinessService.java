@@ -15,23 +15,7 @@ public class BusinessService {
         return businessService;
     }
 
-    public Collection<Business> findAll() throws SQLException {
-        return businessDao.findAll();
-    }
-
-    public Business find(Integer id) throws SQLException {
-        return businessDao.find(id);
-    }
-
-    public boolean update(Business business) throws SQLException {
-        return businessDao.update(business);
-    }
-
-    public boolean add(Business business) throws SQLException {
-        return businessDao.add(business);
-    }
-
-    public boolean  delete(Business business) throws SQLException{
-        return businessDao.delete(business);
+    public Business find() throws SQLException {
+        return businessDao.find();
     }
 }
