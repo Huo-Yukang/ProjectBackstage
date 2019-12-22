@@ -8,17 +8,20 @@ public class Business  implements Comparable<Business>, Serializable
 	private String shopname;
 	private String call_phone;
 	private String address;
-	public Business(int id, String shopname, String call_phone, String address){
+	private int balance;
+	public Business(int id, String shopname, String call_phone, String address,int balance){
 		this.id = id;
 		this.shopname = shopname;
 		this.call_phone = call_phone;
 		this.address = address;
+		this.balance = balance;
 	}
 
-	public Business(String shopname, String call_phone, String address){
+	public Business(String shopname, String call_phone, String address,int balance){
 		this.shopname = shopname;
 		this.call_phone = call_phone;
 		this.address = address;
+		this.balance = balance;
 	}
 	public int getId() {
 		return id;
@@ -51,6 +54,17 @@ public class Business  implements Comparable<Business>, Serializable
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	public void setBalance(int balance){
+		this.balance = balance;
+	}
+
+	public int getBalance(){
+		return this.balance;
+	}
+
+
+
 
 	@Override
 	public int compareTo(Business o) {
