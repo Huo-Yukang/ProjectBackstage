@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/login.ctl")
-public class LoginController extends HttpServlet {
+@WebServlet("/AdministratorLogin.ctl")
+public class AdministratorLoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         //String username = request.getParameter("username");
         //String password = request.getParameter("password");
@@ -25,14 +25,14 @@ public class LoginController extends HttpServlet {
         try{
             User loggedUser = UserService.getInstance().login(user.getPassword(),user.getUsername());
             if (loggedUser != null){
-                message.put("message","登陆成功");
+                message.put("message","管理员登陆成功");
                 HttpSession session = request.getSession();
                 session.setMaxInactiveInterval(100 * 60);
                 session.setAttribute("currentUser",loggedUser);
                 response.getWriter().println(message);
                 return;
             }else{
-                message.put("message","用户名或密码错误");
+                message.put("message","管理员用户名或密码错误");
             }
         } catch (SQLException e) {
             e.printStackTrace();
