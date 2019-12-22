@@ -43,6 +43,29 @@ public class ShoppingController extends HttpServlet {
         }
     }
 
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String food_id_str = request.getParameter("user_id");
+        JSONObject message = new JSONObject();
+        int user_id = Integer.parseInt(food_id_str);
+        try {
+            ShoppingService.getInstance().delete(user_id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String user_id_str = request.getParameter("user_id");
+        int user_id = Integer.parseInt(user_id_str);
+        JSONObject message = new JSONObject();
+        try {
+            ShoppingService.getInstance().transaction(user_id);
+            message.put("message","支付成功");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void responseShoppingsByUser_id(Integer id,HttpServletResponse response) throws SQLException, IOException {
         Collection<Shopping> shoppings = ShoppingService.getInstance().findByUser_id(id);
         String shopping_json = JSON.toJSONString(shoppings,SerializerFeature.DisableCircularReferenceDetect);

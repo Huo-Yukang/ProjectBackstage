@@ -18,4 +18,7 @@ public class BusinessService {
     public Business find() throws SQLException {
         return businessDao.find();
     }
+    public boolean addmoney(Business business,Integer money) throws SQLException {
+        return businessDao.addmoney(business,money);
+    }
 }

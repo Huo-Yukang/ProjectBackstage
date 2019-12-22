@@ -30,4 +30,17 @@ public class BusinessDao {
         JdbcHelper.close(resultSet,statement,connection);
         return business;
     }
+
+    public boolean addmoney(Business business,Integer money) throws SQLException {
+        //获得连接对象
+        Connection connection = JdbcHelper.getConn();
+        //创建sql语句，“？”作为占位符
+        String addMoney_sql = "update business set balance = ?";
+        //创建PreparedStatement接口对象，包装编译后的目标代码（可以设置参数，安全性高）
+        PreparedStatement pstmt = connection.prepareStatement(addMoney_sql);
+        pstmt.setInt(1,money + business.getBalance());
+        int affectedRowNum = pstmt.executeUpdate();
+        System.out.println("修改了 "+affectedRowNum+" 条");
+        return affectedRowNum > 0;
+    }
 }

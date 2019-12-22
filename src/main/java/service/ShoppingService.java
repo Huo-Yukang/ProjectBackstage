@@ -18,16 +18,20 @@ public class ShoppingService {
     public Collection<Shopping> findByUser_id(Integer user_id) throws SQLException {
         return shoppingDao.findByUser_id(user_id);
     }
-
-    public Shopping find(Integer id) throws SQLException {
-        return shoppingDao.find(id);
-    }
+//
+//    public Shopping find(Integer id) throws SQLException {
+//        return shoppingDao.find(id);
+//    }
 
     public boolean add(Shopping shopping) throws SQLException {
         return shoppingDao.add(shopping);
     }
 
-    public boolean delete(Shopping shopping) throws SQLException{
-        return shoppingDao.delete(shopping);
+    public boolean delete(Integer id) throws SQLException{
+        return shoppingDao.delete(id);
+    }
+
+    public boolean transaction(Integer id) throws SQLException{
+        return shoppingDao.transaction(id);
     }
 }
