@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 
-@WebServlet("foodFind.ctl")
+@WebServlet("/foodFind.ctl")
 public class FoodFindController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //读取参数id
