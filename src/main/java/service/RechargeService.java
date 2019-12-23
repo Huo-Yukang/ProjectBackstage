@@ -13,7 +13,7 @@ public class RechargeService {
         return rechargeService;
     }
 
-    public boolean recharge(int id,int money) throws SQLException {
-        return RechargeDao.getInstance().recharge(id,money);
+    public boolean recharge(int id) throws SQLException {
+        return RechargeDao.getInstance().recharge(id);
     }
 }
