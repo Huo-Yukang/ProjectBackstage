@@ -5,6 +5,7 @@ import domain.Business;
 import domain.Food;
 import domain.User;
 import helper.JdbcHelper;
+import service.FoodService;
 
 import java.sql.*;
 import java.util.HashSet;
@@ -80,5 +81,30 @@ public class AdministratorDao {
         preparedStatement.setInt(1,id);
         int affectedRowNum = preparedStatement.executeUpdate();
         return affectedRowNum>0;
+    }
+
+    public static Administrator login(String username, String password) throws SQLException {
+        //获得连接对象
+        Connection connection=JdbcHelper.getConn();
+        //创建sql语句
+        String loginsql="select * from administrator where admername=? and password=?";
+        //在该连接上创建预编译语句
+        PreparedStatement preparedStatement=connection.prepareStatement(loginsql);
+        //为预编译语句赋值
+        preparedStatement.setString(1,username);
+        preparedStatement.setString(2,password);
+        //获得结果集对象
+        ResultSet resultSet=preparedStatement.executeQuery();
+        Administrator administrator=null;
+        if(resultSet.next()){
+            Food food = FoodService.getInstance().find(resultSet.getInt("food_id"));
+            administrator=new Administrator(resultSet.getInt("id"),
+                    resultSet.getString("admername"),
+                    resultSet.getString("password"),
+                    food);
+        }
+        //关闭
+        JdbcHelper.close(preparedStatement,connection);
+        return administrator;
     }
 }

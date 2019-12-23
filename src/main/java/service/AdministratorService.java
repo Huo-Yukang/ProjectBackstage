@@ -3,6 +3,7 @@ package service;
 import dao.AdministratorDao;
 import domain.Administrator;
 import domain.Food;
+import domain.User;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -30,5 +31,9 @@ public class AdministratorService {
 
     public boolean  delete(int id) throws SQLException{
         return administratorDao.delete(id);
+    }
+
+    public Administrator login(String username, String password) throws SQLException {
+        return AdministratorDao.login(username,password);
     }
 }

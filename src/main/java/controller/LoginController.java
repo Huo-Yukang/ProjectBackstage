@@ -19,17 +19,19 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         //String username = request.getParameter("username");
         //String password = request.getParameter("password");
+        request.setCharacterEncoding("UTF-8");
         String login_json = JSONUtil.getJSON(request);
         User user = JSON.parseObject(login_json, User.class);
+        response.setContentType("text/html;charset=UTF-8");
         JSONObject message = new JSONObject();
         try{
             User loggedUser = UserService.getInstance().login(user.getPassword(),user.getUsername());
             if (loggedUser != null){
-                message.put("message","登陆成功");
                 HttpSession session = request.getSession();
-                session.setMaxInactiveInterval(100 * 60);
+                session.setMaxInactiveInterval(2 * 60);
                 session.setAttribute("currentUser",loggedUser);
-                response.getWriter().println(message);
+                String loggedUser_json=JSON.toJSONString(loggedUser);
+                response.getWriter().println(loggedUser_json);
                 return;
             }else{
                 message.put("message","用户名或密码错误");
