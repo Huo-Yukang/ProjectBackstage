@@ -18,7 +18,7 @@ public class RechargeController  extends HttpServlet {
         int user_id = Integer.parseInt(user_id_str);
         JSONObject message = new JSONObject();
         try {
-            boolean recharge = RechargeService.getInstance().recharge(user_id,500);
+            boolean recharge = RechargeService.getInstance().recharge(user_id);
             if(recharge == true){
                 message.put("message","充值成功");
             }else {

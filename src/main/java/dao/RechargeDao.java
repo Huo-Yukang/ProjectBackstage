@@ -20,7 +20,7 @@ public class RechargeDao {
         return rechargeDao;
     }
 
-    public boolean recharge(int id,int money) throws SQLException {
+    public boolean recharge(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
         Connection connection = JdbcHelper.getConn();
         preparedStatement = connection.prepareStatement("select * from user where id = ?");
@@ -34,10 +34,12 @@ public class RechargeDao {
                     resultSet.getString("address"),
                     resultSet.getInt("balance"));
         }
+        System.out.println(user.getBalance());
         preparedStatement = connection.prepareStatement("update user set balance=? where id=?");
-        preparedStatement.setInt(1,user.getBalance() + money);
-        preparedStatement.setInt(2,user.getId());
+        preparedStatement.setInt(1,user.getBalance() + 500);
+        preparedStatement.setInt(2,id);
         int affectedRowNum = preparedStatement.executeUpdate();
+        System.out.println("修改了" + affectedRowNum + "条语句");
         return affectedRowNum>0;
     }
 }
