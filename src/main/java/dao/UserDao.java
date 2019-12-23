@@ -88,25 +88,28 @@ public class UserDao {
     }
 
     public User login(String username,String password) throws SQLException {
-        Set<User> users = new HashSet<User>();
         //获得连接对象
-        Connection connection = JdbcHelper.getConn();
-        Statement statement = connection.createStatement();
-        //执行SQL查询语句并获得结果集对象（游标指向结果集的开头）
-        ResultSet resultSet = statement.executeQuery("select * from user");
-        //若结果集仍然有下一条记录，则执行循环体
-        while (resultSet.next()){
-            User user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"),resultSet.getInt("balance"));
-            //向degrees集合中添加Degree对象
-            users.add(user);
+        Connection connection=JdbcHelper.getConn();
+        //创建sql语句
+        String loginsql="select * from user where username=? and password=?";
+        //在该连接上创建预编译语句
+        PreparedStatement preparedStatement=connection.prepareStatement(loginsql);
+        //为预编译语句赋值
+        preparedStatement.setString(1,username);
+        preparedStatement.setString(2,password);
+        //获得结果集对象
+        ResultSet resultSet=preparedStatement.executeQuery();
+        User user=null;
+        if(resultSet.next()){
+            user=new User(resultSet.getInt("id"),
+                    resultSet.getString("username"),
+                    resultSet.getString("password"),
+                    resultSet.getString("call_phone"),
+                    resultSet.getString("address"),
+                    resultSet.getInt("balance"));
         }
-        //关闭资源
-        JdbcHelper.close(resultSet,statement,connection);
-        User user = null;
-        User desiredUser = userDao.findToUsername(username);
-        if(desiredUser.getPassword().equals(password)){
-            user = desiredUser;
-        }
+        //关闭
+        JdbcHelper.close(preparedStatement,connection);
         return user;
     }
 
