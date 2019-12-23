@@ -1,8 +1,10 @@
 package controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import domain.Administrator;
 import domain.User;
 import helper.JSONUtil;
+import service.AdministratorService;
 import service.UserService;
 
 import javax.servlet.ServletException;
@@ -20,19 +22,19 @@ public class AdministratorLoginController extends HttpServlet {
         //String username = request.getParameter("username");
         //String password = request.getParameter("password");
         String login_json = JSONUtil.getJSON(request);
-        User user = JSON.parseObject(login_json, User.class);
+        Administrator administrator = JSON.parseObject(login_json, Administrator.class);
         JSONObject message = new JSONObject();
         try{
-            User loggedUser = UserService.getInstance().login(user.getPassword(),user.getUsername());
-            if (loggedUser != null){
-                message.put("message","管理员登陆成功");
+            Administrator loggedAdministrator = AdministratorService.getInstance().login(administrator.getAdmername(),administrator.getPassword());
+            if (loggedAdministrator != null){
                 HttpSession session = request.getSession();
-                session.setMaxInactiveInterval(100 * 60);
-                session.setAttribute("currentUser",loggedUser);
-                response.getWriter().println(message);
+                session.setMaxInactiveInterval(2 * 60);
+                session.setAttribute("currentUser",loggedAdministrator);
+                String loggedUser_json=JSON.toJSONString(loggedAdministrator);
+                response.getWriter().println(loggedUser_json);
                 return;
             }else{
-                message.put("message","管理员用户名或密码错误");
+                message.put("message","用户名或密码错误");
             }
         } catch (SQLException e) {
             e.printStackTrace();
