@@ -27,10 +27,8 @@ public class AdministratorDao {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM administrator");
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
-            User user = UserDao.getInstance().find(resultSet.getInt("user_id"));
-            Food food = FoodDao.getInstance().find(resultSet.getInt("food_id"));
             //以当前记录中的id,description,no,remarks值为参数，创建Administrator对象
-            Administrator administrator = new Administrator(resultSet.getInt("id"),resultSet.getString("admername"),resultSet.getString("password"),food);
+            Administrator administrator = new Administrator(resultSet.getInt("id"),resultSet.getString("admername"),resultSet.getString("password"));
             //向businesss集合中添加Administrator对象
             administrators.add(administrator);
         }
@@ -55,10 +53,8 @@ public class AdministratorDao {
         ResultSet resultSet = preparedStatement.executeQuery();
         //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
-            User user = UserDao.getInstance().find(resultSet.getInt("user_id"));
-            Food food = FoodDao.getInstance().find(resultSet.getInt("food_id"));
             //以当前记录中的id,description,no,remarks值为参数，创建Administrator对象
-            administrator = new Administrator(resultSet.getInt("id"),resultSet.getString("admername"),resultSet.getString("password"),food);
+            administrator = new Administrator(resultSet.getInt("id"),resultSet.getString("admername"),resultSet.getString("password"));
         }
         //关闭资源
         JdbcHelper.close(resultSet,preparedStatement,connection);
@@ -97,11 +93,9 @@ public class AdministratorDao {
         ResultSet resultSet=preparedStatement.executeQuery();
         Administrator administrator=null;
         if(resultSet.next()){
-            Food food = FoodService.getInstance().find(resultSet.getInt("food_id"));
             administrator=new Administrator(resultSet.getInt("id"),
                     resultSet.getString("username"),
-                    resultSet.getString("password"),
-                    food);
+                    resultSet.getString("password"));
         }
         //关闭
         JdbcHelper.close(preparedStatement,connection);
