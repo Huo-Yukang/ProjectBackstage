@@ -19,13 +19,19 @@ import java.util.Collection;
 @WebServlet("/shopping.ctl")
 public class ShoppingController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String shopping_json = JSONUtil.getJSON(request);
-        Shopping shoppingToAdd = JSON.parseObject(shopping_json,Shopping.class);
+        String user_id_json = request.getParameter("user_id");
+        String food_id_json = request.getParameter("food_id");
         JSONObject message = new JSONObject();
 
         try {
-            ShoppingService.getInstance().add(shoppingToAdd);
-            message.put("message","已加入购物车");
+            int user_id = Integer.parseInt(user_id_json);
+            int food_id = Integer.parseInt(food_id_json);
+            boolean add = ShoppingService.getInstance().add(user_id,food_id);
+            if (add){
+                message.put("message","已加入购物车");
+            }else {
+                message.put("message","该食物已售罄");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -44,11 +50,11 @@ public class ShoppingController extends HttpServlet {
     }
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String food_id_str = request.getParameter("user_id");
+        String shopping_id_str = request.getParameter("id");
         JSONObject message = new JSONObject();
-        int user_id = Integer.parseInt(food_id_str);
+        int shopping_id = Integer.parseInt(shopping_id_str);
         try {
-            ShoppingService.getInstance().delete(user_id);
+            ShoppingService.getInstance().delete(shopping_id);
         } catch (SQLException e) {
             e.printStackTrace();
         }

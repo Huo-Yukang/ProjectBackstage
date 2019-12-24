@@ -21,7 +21,7 @@ public class FoodFindController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //读取参数id
         String id_str = request.getParameter("id");
-        String name_str = request.getParameter("name");
+        String name_str = request.getParameter("foodname");
 
         //创建JSON对象message，以便往前端响应信息
         JSONObject message = new JSONObject();

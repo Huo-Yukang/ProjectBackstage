@@ -6,6 +6,9 @@ import domain.Shopping;
 import domain.User;
 import helper.JdbcHelper;
 import service.BusinessService;
+import service.FoodService;
+import service.ShoppingService;
+import service.UserService;
 
 import java.sql.*;
 import java.util.Collection;
@@ -18,6 +21,21 @@ public class ShoppingDao {
     private ShoppingDao(){}
     public static ShoppingDao getInstance(){
         return shoppingDao;
+    }
+
+    public Shopping find(Integer shopping_id)throws SQLException{
+        Shopping shopping = null;
+        Connection connection = JdbcHelper.getConn();
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from shopping where id = ?");
+        preparedStatement.setInt(1,shopping_id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()){
+            User user = UserService.getInstance().find(resultSet.getInt("user_id"));
+            Food food = FoodService.getInstance().find(resultSet.getInt("food_id"));
+            shopping = new Shopping(user,food);
+        }
+        JdbcHelper.close(preparedStatement,connection);
+        return shopping;
     }
 
     public Collection<Shopping> findByUser_id(Integer user_id) throws SQLException {
@@ -109,20 +127,43 @@ public class ShoppingDao {
         return affected;
     }
 
-    public boolean add(Shopping shopping) throws SQLException {
+    public boolean add(int user_id,int food_id) throws SQLException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        Boolean affected = false;
         //获得连接对象
-        Connection connection = JdbcHelper.getConn();
-        //创建sql语句，“？”作为占位符
-        String addFoodToShopping_sql = "INSERT INTO shopping(no,food_id) VALUES" + " (?,?)";
-        //创建PreparedStatement接口对象，包装编译后的目标代码（可以设置参数，安全性高）
-        PreparedStatement pstmt = connection.prepareStatement(addFoodToShopping_sql);
-        //为预编译的语句参数赋值
-        pstmt.setInt(1,shopping.getUser().getId());
-        pstmt.setInt(2,shopping.getFood().getId());
-        //执行预编译对象的executeUpdate()方法，获取增加记录的行数
-        int affectedRowNum = pstmt.executeUpdate();
-        System.out.println("增加了 "+affectedRowNum+" 条");
-        return affectedRowNum > 0;
+        try {
+            connection = JdbcHelper.getConn();
+            //创建PreparedStatement接口对象，包装编译后的目标代码（可以设置参数，安全性高）
+            Food food = FoodService.getInstance().find(food_id);
+            if (food.getTotal() > 0) {
+                pstmt = connection.prepareStatement
+                        ("INSERT INTO shopping(user_id,food_id) VALUES" + " (?,?)");
+                //为预编译的语句参数赋值
+                pstmt.setInt(1, user_id);
+                pstmt.setInt(2, food_id);
+                pstmt.execute();
+
+                pstmt = connection.prepareStatement("update food set total = ? where id = ?");
+                pstmt.setInt(1, food.getTotal() - 1);
+                pstmt.setInt(2, food_id);
+                //执行预编译对象的executeUpdate()方法，获取增加记录的行数
+                int affectedRowNum = pstmt.executeUpdate();
+                System.out.println("增加了 " + affectedRowNum + " 条");
+                affected = true;
+            }
+        }catch (SQLException e){
+            if(connection != null){
+                e.printStackTrace();
+                connection.rollback();
+            }
+        }finally {
+            if(connection != null){
+                connection.setAutoCommit(true);
+            }
+            JdbcHelper.close(pstmt,connection);
+        }
+        return affected;
     }
 
 //
@@ -151,13 +192,16 @@ public class ShoppingDao {
 //        return shopping;
 //    }
 
-    public boolean delete(Integer id) throws SQLException{
+    public boolean delete(Integer shopping_id) throws SQLException{
         Connection connection = JdbcHelper.getConn();
-        //创建sql语句，“？”作为占位符
-        String delete = "DELETE FROM shopping WHERE ID =?";
-        PreparedStatement pstmt = connection.prepareStatement(delete);
-        pstmt.setInt(1,id);
-        int delete1 = pstmt.executeUpdate();
-        return delete1>0;
+        Shopping shopping = ShoppingService.getInstance().find(shopping_id);
+        PreparedStatement pstmt = connection.prepareStatement("update food set total = ? where id = ?");
+        pstmt.setInt(1,shopping.getFood().getTotal() + 1);
+        pstmt.setInt(2,shopping.getFood().getId());
+        pstmt.execute();
+        pstmt = connection.prepareStatement("DELETE FROM shopping WHERE ID =?");
+        pstmt.setInt(1,shopping_id);
+        int delete = pstmt.executeUpdate();
+        return delete>0;
     }
 }
