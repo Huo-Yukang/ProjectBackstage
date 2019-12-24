@@ -2,10 +2,8 @@ package controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import domain.Administrator;
-import domain.User;
 import helper.JSONUtil;
 import service.AdministratorService;
-import service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
