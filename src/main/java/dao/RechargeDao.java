@@ -20,26 +20,26 @@ public class RechargeDao {
         return rechargeDao;
     }
 
-    public boolean recharge(int id) throws SQLException {
+    public User recharge(User user) throws SQLException {
         PreparedStatement preparedStatement = null;
         Connection connection = JdbcHelper.getConn();
-        preparedStatement = connection.prepareStatement("select * from user where id = ?");
-        preparedStatement.setInt(1, id);
+        System.out.println(user.getBalance());
+        preparedStatement = connection.prepareStatement("update user set balance=? where id=?");
+        preparedStatement.setInt(1,user.getBalance() + 500);
+        preparedStatement.setInt(2,user.getId());
+        preparedStatement.executeUpdate();
+        preparedStatement = connection.prepareStatement("select * from user where id =?");
+        preparedStatement.setInt(1,user.getId());
         ResultSet resultSet = preparedStatement.executeQuery();
-        User user = null;
-        if (resultSet.next()) {
-            user = new User(resultSet.getString("username"),
+        User user1 = null;
+        if (resultSet.next()){
+            user1 = new User(resultSet.getInt("id"),
+                    resultSet.getString("username"),
                     resultSet.getString("password"),
                     resultSet.getString("call_phone"),
                     resultSet.getString("address"),
                     resultSet.getInt("balance"));
         }
-        System.out.println(user.getBalance());
-        preparedStatement = connection.prepareStatement("update user set balance=? where id=?");
-        preparedStatement.setInt(1,user.getBalance() + 500);
-        preparedStatement.setInt(2,id);
-        int affectedRowNum = preparedStatement.executeUpdate();
-        System.out.println("修改了" + affectedRowNum + "条语句");
-        return affectedRowNum>0;
+        return user1;
     }
 }

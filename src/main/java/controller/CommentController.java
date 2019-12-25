@@ -40,8 +40,6 @@ public class CommentController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //读取参数id
-        String id_str = request.getParameter("id");
 
         //创建JSON对象message，以便往前端响应信息
         JSONObject message = new JSONObject();
@@ -53,6 +51,7 @@ public class CommentController extends HttpServlet {
             response.getWriter().println(comments_json);
         }catch (SQLException e){
             message.put("message", "数据库操作异常");
+            e.printStackTrace();
             //响应message到前端
             response.getWriter().println(message);
         }catch(Exception e){

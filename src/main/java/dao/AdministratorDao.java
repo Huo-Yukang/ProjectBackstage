@@ -94,7 +94,7 @@ public class AdministratorDao {
         Administrator administrator=null;
         if(resultSet.next()){
             administrator=new Administrator(resultSet.getInt("id"),
-                    resultSet.getString("username"),
+                    resultSet.getString("admername"),
                     resultSet.getString("password"));
         }
         //关闭

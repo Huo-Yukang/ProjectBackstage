@@ -2,6 +2,7 @@ package service;
 
 import dao.RechargeDao;
 import domain.Recharge;
+import domain.User;
 
 import java.sql.SQLException;
 
@@ -13,7 +14,7 @@ public class RechargeService {
         return rechargeService;
     }
 
-    public boolean recharge(int id) throws SQLException {
-        return RechargeDao.getInstance().recharge(id);
+    public User recharge(User user) throws SQLException {
+        return RechargeDao.getInstance().recharge(user);
     }
 }
