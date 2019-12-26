@@ -127,7 +127,7 @@ public class ShoppingDao {
         return affected;
     }
 
-    public boolean add(int user_id,int food_id) throws SQLException {
+    public boolean add(Shopping shopping) throws SQLException {
         Connection connection = null;
         PreparedStatement pstmt = null;
         Boolean affected = false;
@@ -135,18 +135,18 @@ public class ShoppingDao {
         try {
             connection = JdbcHelper.getConn();
             //创建PreparedStatement接口对象，包装编译后的目标代码（可以设置参数，安全性高）
-            Food food = FoodService.getInstance().find(food_id);
+            Food food = FoodService.getInstance().find(shopping.getFood().getId());
             if (food.getTotal() > 0) {
                 pstmt = connection.prepareStatement
                         ("INSERT INTO shopping(user_id,food_id) VALUES" + " (?,?)");
                 //为预编译的语句参数赋值
-                pstmt.setInt(1, user_id);
-                pstmt.setInt(2, food_id);
+                pstmt.setInt(1, shopping.getUser().getId());
+                pstmt.setInt(2, shopping.getFood().getId());
                 pstmt.execute();
 
                 pstmt = connection.prepareStatement("update food set total = ? where id = ?");
                 pstmt.setInt(1, food.getTotal() - 1);
-                pstmt.setInt(2, food_id);
+                pstmt.setInt(2, shopping.getFood().getId());
                 //执行预编译对象的executeUpdate()方法，获取增加记录的行数
                 int affectedRowNum = pstmt.executeUpdate();
                 System.out.println("增加了 " + affectedRowNum + " 条");

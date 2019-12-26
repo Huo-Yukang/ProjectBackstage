@@ -23,8 +23,8 @@ public class ShoppingService {
         return shoppingDao.find(id);
     }
 
-    public boolean add(int user_id,int food_id) throws SQLException {
-        return shoppingDao.add(user_id,food_id);
+    public boolean add(Shopping shopping) throws SQLException {
+        return shoppingDao.add(shopping);
     }
 
     public boolean delete(Integer id) throws SQLException{

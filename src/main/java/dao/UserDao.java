@@ -52,7 +52,7 @@ public class UserDao {
         //若结果集中没有记录，则本方法返回null
         ResultSet resultSet = preparedStatement.executeQuery();
         //若结果集仍然有下一条记录，则执行循环体
-        while (resultSet.next()){
+        if (resultSet.next()){
             //创建User对象，根据遍历结果中的id,description,no,remarks值
             user = new User(resultSet.getInt("id"),resultSet.getString("username"),resultSet.getString("password"),resultSet.getString("call_phone"),resultSet.getString("address"),resultSet.getInt("balance"));
             //向users集合中添加User对象

@@ -19,15 +19,13 @@ import java.util.Collection;
 @WebServlet("/shopping.ctl")
 public class ShoppingController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String user_id_json = request.getParameter("user_id");
-        String food_id_json = request.getParameter("food_id");
+        String shopping_json = JSONUtil.getJSON(request);
+        Shopping shopping = JSON.parseObject(shopping_json,Shopping.class);
         JSONObject message = new JSONObject();
 
         try {
-            int user_id = Integer.parseInt(user_id_json);
-            int food_id = Integer.parseInt(food_id_json);
-            boolean add = ShoppingService.getInstance().add(user_id,food_id);
-            if (add){
+            boolean addToShopping = ShoppingService.getInstance().add(shopping);
+            if (addToShopping){
                 message.put("message","已加入购物车");
             }else {
                 message.put("message","该食物已售罄");
