@@ -53,6 +53,8 @@ public class ShoppingController extends HttpServlet {
         int shopping_id = Integer.parseInt(shopping_id_str);
         try {
             ShoppingService.getInstance().delete(shopping_id);
+            message.put("message","已经移出购物车");
+            response.getWriter().println(message);
         } catch (SQLException e) {
             e.printStackTrace();
         }
