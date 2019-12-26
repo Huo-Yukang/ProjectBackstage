@@ -105,6 +105,9 @@ public class ShoppingDao {
             preparedStatement.setInt(1,user.getBalance() - total);
             preparedStatement.setInt(2,id);
             int affectedRowNum = preparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement("delete from shopping where user_id = ?");
+            preparedStatement.setInt(1,id);
+            preparedStatement.execute();
             if(user.getBalance() < total){
                 connection.rollback();
                 affectedRowNum = 0;
