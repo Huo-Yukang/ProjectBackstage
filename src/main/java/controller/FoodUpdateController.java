@@ -38,4 +38,40 @@ public class FoodUpdateController extends HttpServlet {
         //响应message到前端
         response.getWriter().println(message);
     }
+
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String comment_json = JSONUtil.getJSON(request);
+        //将JSON字串解析为School对象
+        Food foodToAdd = JSON.parseObject(comment_json,Food.class);
+        //创建JSON对象message，以便往前端响应信息
+        JSONObject message = new JSONObject();
+        //到数据库表修改School对象对应的记录
+        try {
+            FoodService.getInstance().add(foodToAdd);
+            message.put("message", "增加成功");
+        }catch (SQLException e){
+            e.printStackTrace();
+            message.put("message", "数据库操作异常");
+        }catch(Exception e){
+            e.printStackTrace();
+            message.put("message", "网络异常");
+        }
+        //响应message到前端
+        response.getWriter().println(message);
+    }
+
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id_str = request.getParameter("id");
+        JSONObject message = new JSONObject();
+        int id = Integer.parseInt(id_str);
+        message.put("message", "删除成功");
+        try {
+            FoodService.getInstance().delete(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            message.put("message", "数据库操作异常");
+        }
+        response.getWriter().println(message);
+    }
 }

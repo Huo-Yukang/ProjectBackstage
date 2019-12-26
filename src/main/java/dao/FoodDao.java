@@ -1,6 +1,7 @@
 package dao;
 import domain.Food;
 import helper.JdbcHelper;
+import service.FoodService;
 
 import java.sql.*;
 import java.util.HashSet;
@@ -99,5 +100,28 @@ public class FoodDao {
         int affectedRowNum = pstmt.executeUpdate();
         System.out.println("修改了 "+affectedRowNum+" 条");
         return affectedRowNum > 0;
+    }
+
+    public Boolean add(Food food)throws SQLException{
+        Connection connection = JdbcHelper.getConn();
+        PreparedStatement preparedStatement = connection.prepareStatement("insert into food(foodno, foodname, price, total) values (?,?,?,?)");
+        preparedStatement.setString(1,food.getFoodno());
+        preparedStatement.setString(2,food.getFoodname());
+        preparedStatement.setInt(3,food.getPrice());
+        preparedStatement.setInt(4,food.getTotal());
+        int affectedRowNum = preparedStatement.executeUpdate();
+        JdbcHelper.close(preparedStatement,connection);
+        return affectedRowNum>0;
+    }
+
+    public boolean  delete(int id) throws SQLException{
+        Connection connection = JdbcHelper.getConn();
+        //创建sql语句，“？”作为占位符
+        String delete = "DELETE FROM food WHERE ID =?";
+        PreparedStatement pstmt = connection.prepareStatement(delete);
+        pstmt.setInt(1,id);
+        System.out.println(id);
+        int delete1 = pstmt.executeUpdate();
+        return delete1>0;
     }
 }

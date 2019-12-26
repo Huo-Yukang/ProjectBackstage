@@ -30,4 +30,12 @@ public class FoodService {
     public Food findToName(String name) throws  SQLException{
         return foodDao.findToName(name);
     }
+
+    public boolean add(Food food) throws SQLException {
+        return foodDao.add(food);
+    }
+
+    public boolean delete(Integer id) throws SQLException{
+        return foodDao.delete(id);
+    }
 }
