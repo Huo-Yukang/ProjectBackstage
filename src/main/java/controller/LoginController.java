@@ -25,7 +25,7 @@ public class LoginController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         JSONObject message = new JSONObject();
         try{
-            User loggedUser = UserService.getInstance().login(user.getPassword(),user.getUsername());
+            User loggedUser = UserService.getInstance().login(user.getUsername(),user.getPassword());
             if (loggedUser != null){
                 HttpSession session = request.getSession();
                 session.setMaxInactiveInterval(2 * 60);
