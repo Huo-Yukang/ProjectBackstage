@@ -10,7 +10,7 @@ public final class JdbcHelper {
 	// "jdbc:sqlserver://localhost:1433;databaseName=bysjs;SelectMethod=Cursor;";
 	private static String url = "jdbc:mysql://localhost:3306/kcsj?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai";
 	private static String user = "root";
-	private static String password = "hyk123456";
+	private static String password = "201802104023";
 
 	// 不允许创建本类对象
 	private JdbcHelper() {}
