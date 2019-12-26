@@ -17,4 +17,7 @@ public class RechargeService {
     public User recharge(User user) throws SQLException {
         return RechargeDao.getInstance().recharge(user);
     }
+    public User getBalance(Integer id)throws SQLException{
+        return rechargeDao.getInstance().getBalance(id);
+    }
 }
