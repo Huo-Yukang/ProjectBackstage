@@ -30,7 +30,7 @@ public class UserController extends HttpServlet {
             message.put("message", "增加成功");
         }catch (SQLException e){
             e.printStackTrace();
-            message.put("message", "数据库操作异常");
+            message.put("message", "该用户已被注册");
         }catch(Exception e){
             e.printStackTrace();
             message.put("message", "网络异常");
