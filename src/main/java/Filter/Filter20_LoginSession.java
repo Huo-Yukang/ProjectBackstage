@@ -26,7 +26,7 @@
 //        if (path.contains("/login.ctl") ||
 //                path.contains("/logout.ctl") ||
 //                path.contains("/index.html") ||
-//                path.contains("myapp")) {//let login and logout go
+//                path.contains("Reception")) {//let login and logout go
 //            //放行，打印过滤器结束
 //            chain.doFilter(req, resp);
 //            System.out.println("Filter 20 - LoginSessionFilter ends!");

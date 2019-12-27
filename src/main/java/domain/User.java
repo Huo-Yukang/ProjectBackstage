@@ -15,8 +15,13 @@ public class User implements Comparable<User>, Serializable
 		super();
 	}
 
+	public User(int id, String username, int balance) {
+		this.id = id;
+		this.username = username;
+		this.balance = balance;
+	}
 
-	public User(int id, String username, String password, String call_phone, String address,int balance) {
+	public User(int id, String username, String password, String call_phone, String address, int balance) {
 		this.id = id;
 		this.username = username;
 		this.password = password;

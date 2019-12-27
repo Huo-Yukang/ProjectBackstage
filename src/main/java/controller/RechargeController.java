@@ -24,9 +24,7 @@ public class RechargeController  extends HttpServlet {
         try {
             User recharge = RechargeService.getInstance().recharge(userToUpdate);
             String userToJson = JSON.toJSONString(recharge, SerializerFeature.DisableCircularReferenceDetect);
-            message.put("message","充值成功");
             response.getWriter().println(userToJson);
-            response.getWriter().println(message);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -68,9 +68,9 @@ public class ShoppingController extends HttpServlet {
         try {
             boolean traned = ShoppingService.getInstance().transaction(user_id);
             if(traned == true){
-                message.put("message","支付成功");
+                message.put("message","支付成功，欢迎再次选购");
             }else {
-                message.put("message","支付失败");
+                message.put("message","支付失败，余额不足");
             }
             response.getWriter().println(message);
         } catch (SQLException e) {
