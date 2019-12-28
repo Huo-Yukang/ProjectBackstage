@@ -26,7 +26,7 @@ public class Filter00_Encoding implements Filter {
 
         //如果路径包含login、myapp、js和myapp则不设置任何编码格式
         if (
-                path.contains("myapp") ||
+                path.contains("Reception") ||
                 path.contains("js") ||
                 path.contains("html")){
             System.out.println("未设置字符编码格式");
