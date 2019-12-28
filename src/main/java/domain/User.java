@@ -7,6 +7,7 @@ public class User implements Comparable<User>, Serializable
 
 	private int id;
 	private String username;
+	private String name;
 	private String password;
 	private String call_phone;
 	private String address;
@@ -21,17 +22,19 @@ public class User implements Comparable<User>, Serializable
 		this.balance = balance;
 	}
 
-	public User(int id, String username, String password, String call_phone, String address, int balance) {
+	public User(int id, String username, String name, String password, String call_phone, String address, int balance) {
 		this.id = id;
 		this.username = username;
+		this.name = name;
 		this.password = password;
 		this.call_phone = call_phone;
 		this.address = address;
 		this.balance = balance;
 	}
 
-	public User(String username, String password, String call_phone, String address,int balance) {
+	public User(String username, String name, String password, String call_phone, String address,int balance) {
 		this.username = username;
+		this.name = name;
 		this.password = password;
 		this.call_phone = call_phone;
 		this.address = address;
@@ -83,6 +86,14 @@ public class User implements Comparable<User>, Serializable
 
 	public int getBalance(){
 		return this.balance;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override

@@ -96,6 +96,7 @@ public class ShoppingDao {
             User user = null;
             if (resultSet2.next()){
                 user = new User(resultSet2.getString("username"),
+                        resultSet2.getString("name"),
                         resultSet2.getString("password"),
                         resultSet2.getString("call_phone"),
                         resultSet2.getString("address"),

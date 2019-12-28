@@ -27,6 +27,7 @@ public class RechargeDao {
         if (resultSet0.next()){
             user0 = new User(resultSet0.getInt("id"),
                     resultSet0.getString("username"),
+                    resultSet0.getString("name"),
                     resultSet0.getString("password"),
                     resultSet0.getString("call_phone"),
                     resultSet0.getString("address"),
@@ -43,6 +44,7 @@ public class RechargeDao {
         if (resultSet.next()){
             user1 = new User(resultSet.getInt("id"),
                     resultSet.getString("username"),
+                    resultSet.getString("name"),
                     resultSet.getString("password"),
                     resultSet.getString("call_phone"),
                     resultSet.getString("address"),
@@ -59,6 +61,7 @@ public class RechargeDao {
         User user1 = null;
         if (resultSet.next()){
             user1 = new User(resultSet.getInt("id"),
+                    resultSet.getString("name"),
                     resultSet.getString("username"),
                     resultSet.getString("password"),
                     resultSet.getString("call_phone"),

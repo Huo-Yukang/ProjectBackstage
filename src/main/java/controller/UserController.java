@@ -27,7 +27,7 @@ public class UserController extends HttpServlet {
         //到数据库表修改School对象对应的记录
         try {
             UserService.getInstance().add(userToAdd);
-            message.put("message", "增加成功");
+            message.put("message", "注册成功");
         }catch (SQLException e){
             e.printStackTrace();
             message.put("message", "该用户已被注册");
