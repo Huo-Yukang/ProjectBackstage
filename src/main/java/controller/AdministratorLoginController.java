@@ -41,6 +41,7 @@ public class AdministratorLoginController extends HttpServlet {
             e.printStackTrace();
             message.put("message","网络异常");
         }
+
         response.getWriter().println(message);
     }
 }
