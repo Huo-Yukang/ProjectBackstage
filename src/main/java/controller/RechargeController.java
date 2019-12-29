@@ -20,7 +20,6 @@ public class RechargeController  extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String user_json = JSONUtil.getJSON(request);
         User userToUpdate = JSON.parseObject(user_json,User.class);
-        JSONObject message = new JSONObject();
         try {
             User recharge = RechargeService.getInstance().recharge(userToUpdate);
             String userToJson = JSON.toJSONString(recharge, SerializerFeature.DisableCircularReferenceDetect);

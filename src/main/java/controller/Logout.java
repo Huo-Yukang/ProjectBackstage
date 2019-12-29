@@ -14,6 +14,5 @@ public class Logout extends HttpServlet {
         HttpSession session = request.getSession(false);
         session.invalidate();
         response.getWriter().println("已退出登录");
-        //用于退出登录
     }
 }

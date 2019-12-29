@@ -18,17 +18,13 @@ public class CommentDao {
 
     public Set<Comment> findAll() throws SQLException {
         Set<Comment> comments = new HashSet<Comment>();
-        //获得连接对象
         Connection connection = JdbcHelper.getConn();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM Comment");
-        //若结果集仍然有下一条记录，则执行循环体
         while (resultSet.next()){
             Comment comment = new Comment(resultSet.getInt("id"),resultSet.getString("description"));
-            //向businesss集合中添加Comment对象
             comments.add(comment);
         }
-        //关闭资源
         JdbcHelper.close(resultSet,statement,connection);
         return comments;
     }

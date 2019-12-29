@@ -44,7 +44,6 @@ public class ShoppingDao {
         PreparedStatement preparedStatement = connection.prepareStatement("select * from shopping where user_id = ?");
         preparedStatement.setInt(1,user_id);
         ResultSet resultSet = preparedStatement.executeQuery();
-        //结果集表游标下移一行，当有结果的时候
         while (resultSet.next()) {
             User user = UserDao.getInstance().find(resultSet.getInt("user_id"));
             Food food = FoodDao.getInstance().find(resultSet.getInt("food_id"));
@@ -59,7 +58,6 @@ public class ShoppingDao {
         PreparedStatement preparedStatement = null;
         Boolean affected = null;
         try {
-            //获取数据库连接对象
             connection = JdbcHelper.getConn();
             connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement("select * from business");
@@ -135,23 +133,18 @@ public class ShoppingDao {
         Connection connection = null;
         PreparedStatement pstmt = null;
         Boolean affected = false;
-        //获得连接对象
         try {
             connection = JdbcHelper.getConn();
-            //创建PreparedStatement接口对象，包装编译后的目标代码（可以设置参数，安全性高）
             Food food = FoodService.getInstance().find(shopping.getFood().getId());
             if (food.getTotal() > 0) {
                 pstmt = connection.prepareStatement
                         ("INSERT INTO shopping(user_id,food_id) VALUES" + " (?,?)");
-                //为预编译的语句参数赋值
                 pstmt.setInt(1, shopping.getUser().getId());
                 pstmt.setInt(2, shopping.getFood().getId());
                 pstmt.execute();
-
                 pstmt = connection.prepareStatement("update food set total = ? where id = ?");
                 pstmt.setInt(1, food.getTotal() - 1);
                 pstmt.setInt(2, shopping.getFood().getId());
-                //执行预编译对象的executeUpdate()方法，获取增加记录的行数
                 int affectedRowNum = pstmt.executeUpdate();
                 System.out.println("增加了 " + affectedRowNum + " 条");
                 affected = true;
@@ -170,31 +163,6 @@ public class ShoppingDao {
         return affected;
     }
 
-//
-//    public Shopping find(Integer id) throws SQLException {
-//        Shopping shopping = null;
-//        //获得连接对象
-//        Connection connection = JdbcHelper.getConn();
-//        String findFood_sql = "SELECT * FROM shopping WHERE id=?";
-//        //在该连接上创建预编译语句对象
-//        PreparedStatement preparedStatement = connection.prepareStatement(findFood_sql);
-//        //为预编译参数赋值
-//        preparedStatement.setInt(1,id);
-//        //由于id不能取重复值，故结果集中最多有一条记录
-//        //若结果集有一条记录，则以当前记录中的id,description,no,remarks值为参数，创建Degree对象
-//        //若结果集中没有记录，则本方法返回null
-//        ResultSet resultSet = preparedStatement.executeQuery();
-//        //若结果集仍然有下一条记录，则执行循环体
-//        while (resultSet.next()){
-//            User user = UserDao.getInstance().find(resultSet.getInt("user_id"));
-//            Food food = FoodDao.getInstance().find(resultSet.getInt("food_id"));
-//            //创建Degree对象，根据遍历结果中的id,description,no,remarks值
-//            shopping = new Shopping(user,food);
-//        }
-//        //关闭资源
-//        JdbcHelper.close(resultSet,preparedStatement,connection);
-//        return shopping;
-//    }
 
     public boolean delete(Integer shopping_id) throws SQLException{
         Connection connection = JdbcHelper.getConn();

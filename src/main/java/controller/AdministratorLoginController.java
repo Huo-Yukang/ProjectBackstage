@@ -17,8 +17,6 @@ import java.sql.SQLException;
 @WebServlet("/AdministratorLogin.ctl")
 public class AdministratorLoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        //String username = request.getParameter("username");
-        //String password = request.getParameter("password");
         String login_json = JSONUtil.getJSON(request);
         Administrator administrator = JSON.parseObject(login_json, Administrator.class);
         JSONObject message = new JSONObject();
