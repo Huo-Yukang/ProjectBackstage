@@ -11,7 +11,7 @@ import java.io.IOException;
 @WebServlet("/logout.ctl")
 public class Logout extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         session.invalidate();
         response.getWriter().println("已退出登录");
         //用于退出登录

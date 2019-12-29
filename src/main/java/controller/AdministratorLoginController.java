@@ -26,7 +26,7 @@ public class AdministratorLoginController extends HttpServlet {
             Administrator loggedAdministrator = AdministratorService.getInstance().login(administrator.getAdmername(),administrator.getPassword());
             if (loggedAdministrator != null){
                 HttpSession session = request.getSession();
-                session.setMaxInactiveInterval(2 * 60);
+                session.setMaxInactiveInterval(60 * 60);
                 session.setAttribute("currentUser",loggedAdministrator);
                 String loggedUser_json=JSON.toJSONString(loggedAdministrator);
                 response.getWriter().println(loggedUser_json);
