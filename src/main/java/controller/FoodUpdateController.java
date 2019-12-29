@@ -38,11 +38,8 @@ public class FoodUpdateController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String comment_json = JSONUtil.getJSON(request);
-        //将JSON字串解析为School对象
         Food foodToAdd = JSON.parseObject(comment_json,Food.class);
-        //创建JSON对象message，以便往前端响应信息
         JSONObject message = new JSONObject();
-        //到数据库表修改School对象对应的记录
         try {
             FoodService.getInstance().add(foodToAdd);
             message.put("message", "增加成功");
@@ -53,7 +50,6 @@ public class FoodUpdateController extends HttpServlet {
             e.printStackTrace();
             message.put("message", "网络异常");
         }
-        //响应message到前端
         response.getWriter().println(message);
     }
 
